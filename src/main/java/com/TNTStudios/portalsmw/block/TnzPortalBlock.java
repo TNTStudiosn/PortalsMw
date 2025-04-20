@@ -6,18 +6,42 @@ import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.PlayerEntity;
+import net.minecraft.particle.DustParticleEffect;
 import net.minecraft.server.world.ServerWorld;
 import net.minecraft.sound.SoundCategory;
 import net.minecraft.sound.SoundEvents;
 import net.minecraft.text.Text;
 import net.minecraft.util.math.BlockPos;
+import net.minecraft.util.math.random.Random;
 import net.minecraft.world.World;
+import org.joml.Vector3f;
+
 
 public class TnzPortalBlock extends Block {
 
     public TnzPortalBlock(Settings settings) {
         super(settings);
     }
+
+    @Override
+    public void randomDisplayTick(BlockState state, World world, BlockPos pos, Random random) {
+        if (!world.isClient) return;
+
+        for (int i = 0; i < 4; i++) {
+            double x = pos.getX() + 0.5 + (random.nextDouble() - 0.5);
+            double y = pos.getY() + 0.5 + random.nextDouble();
+            double z = pos.getZ() + 0.5 + (random.nextDouble() - 0.5);
+
+            Vector3f color = new Vector3f(0.2f, 0.4f, 1.0f); // Azul
+
+            world.addParticle(
+                    new DustParticleEffect(color, 1.0f),
+                    x, y, z,
+                    0.0, 0.01, 0.0
+            );
+        }
+    }
+
 
     @Override
     public void onSteppedOn(World world, BlockPos pos, BlockState state, Entity entity) {

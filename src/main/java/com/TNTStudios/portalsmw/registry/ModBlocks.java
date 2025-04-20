@@ -18,6 +18,7 @@ public class ModBlocks {
             .strength(1.0f)
             .nonOpaque()
             .noCollision()
+            .luminance(state -> 12) // ← Nivel de luz (máx. 15)
     );
 
     public static void register() {
