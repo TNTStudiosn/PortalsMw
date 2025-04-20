@@ -16,7 +16,6 @@ import net.minecraft.util.math.random.Random;
 import net.minecraft.world.World;
 import org.joml.Vector3f;
 
-
 public class TnzPortalBlock extends Block {
 
     public TnzPortalBlock(Settings settings) {
@@ -42,23 +41,19 @@ public class TnzPortalBlock extends Block {
         }
     }
 
-
     @Override
     public void onSteppedOn(World world, BlockPos pos, BlockState state, Entity entity) {
         if (world.isClient || !(entity instanceof PlayerEntity player)) return;
 
         ServerWorld serverWorld = (ServerWorld) world;
-        String portalKey = PortalManager.getKeyFromPos(pos);
 
-        if (portalKey == null) return;
-
-        if (!PortalManager.isPortalActive(portalKey)) {
+        if (!PortalManager.isPortalActive()) {
             player.sendMessage(Text.literal("§cEl portal está desactivado, vuelve más tarde..."), true);
             player.playSound(SoundEvents.BLOCK_NOTE_BLOCK_BASS.value(), SoundCategory.PLAYERS, 1f, 1f);
             return;
         }
 
-        String command = PortalManager.getCommandForPortal(portalKey);
+        String command = PortalManager.getCommandIfActive();
         if (command != null && !command.isBlank()) {
             CommandExecutor.executeAsPlayer(serverWorld.getServer(), player, command);
         }
