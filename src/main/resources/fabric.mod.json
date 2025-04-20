@@ -1,0 +1,35 @@
+{
+  "schemaVersion": 1,
+  "id": "portalsmw",
+  "version": "${version}",
+  "name": "PortalsMw",
+  "description": "",
+  "authors": [],
+  "contact": {},
+  "license": "All-Rights-Reserved",
+  "icon": "assets/portalsmw/icon.png",
+  "environment": "*",
+  "entrypoints": {
+    "fabric-datagen": [
+      "com.TNTStudios.portalsmw.client.PortalsmwDataGenerator"
+    ],
+    "client": [
+      "com.TNTStudios.portalsmw.client.PortalsmwClient"
+    ],
+    "main": [
+      "com.TNTStudios.portalsmw.Portalsmw"
+    ]
+  },
+  "mixins": [
+    "portalsmw.mixins.json",
+    {
+      "config": "portalsmw.client.mixins.json",
+      "environment": "client"
+    }
+  ],
+  "depends": {
+    "fabricloader": ">=${loader_version}",
+    "fabric": "*",
+    "minecraft": "${minecraft_version}"
+  }
+}
