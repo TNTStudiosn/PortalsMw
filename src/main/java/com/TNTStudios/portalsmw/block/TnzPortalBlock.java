@@ -42,7 +42,7 @@ public class TnzPortalBlock extends Block {
     }
 
     @Override
-    public void onSteppedOn(World world, BlockPos pos, BlockState state, Entity entity) {
+    public void onEntityCollision(BlockState state, World world, BlockPos pos, Entity entity) {
         if (world.isClient || !(entity instanceof PlayerEntity player)) return;
 
         ServerWorld serverWorld = (ServerWorld) world;

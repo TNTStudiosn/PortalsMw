@@ -1,6 +1,7 @@
 package com.TNTStudios.portalsmw.portal;
 
 import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
 import com.google.gson.reflect.TypeToken;
 
 import java.io.File;
@@ -13,7 +14,10 @@ import java.util.Map;
 public class PortalManager {
 
     private static final File CONFIG_FILE = new File("config/portalsmw/portals.json");
-    private static final Gson GSON = new Gson();
+    // Ahora usamos GsonBuilder con pretty printing
+    private static final Gson GSON = new GsonBuilder()
+            .setPrettyPrinting()
+            .create();
 
     private static final Map<String, String> portals = new HashMap<>();
     private static String activePortal = null;
@@ -51,7 +55,7 @@ public class PortalManager {
     public static void loadPortals() {
         if (!CONFIG_FILE.exists()) return;
         try (FileReader reader = new FileReader(CONFIG_FILE)) {
-            Type type = new TypeToken<PortalConfig>(){}.getType();
+            Type type = new TypeToken<PortalConfig>() {}.getType();
             PortalConfig config = GSON.fromJson(reader, type);
             portals.clear();
             portals.putAll(config.portals);
@@ -70,6 +74,7 @@ public class PortalManager {
                 config.portals = portals;
                 config.activePortal = activePortal;
                 config.isActive = isActive;
+                // Esto ahora escribe el JSON con sangrías y saltos de línea
                 GSON.toJson(config, writer);
             }
         } catch (Exception e) {
